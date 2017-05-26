@@ -7,7 +7,7 @@ using System.Linq;
 
 public class Sarsa : MonoBehaviour
 {
-
+    //[Header('')]
     public InputField alpha;
     public InputField gamma;
     public InputField egreedy;
@@ -19,7 +19,7 @@ public class Sarsa : MonoBehaviour
     public InputField afterEpisodes1;
     public InputField afterEGreddy1;
 
-    public Text[] Qtable;
+    //public Text[] Qtable;
     public string allQ; 
     
     //Show Data
@@ -75,14 +75,10 @@ public class Sarsa : MonoBehaviour
     int minAxis = 0;
     int maxAxis = 3;
 
-    // Use this for initialization
+   
     void Start()
     {
-        //Default Rewards
-        GoalReward = 20;
-        TrapReward = -10;
-        SimpleReward = -1;
-
+        
         // Time foe eatch Move
         Speed = 1;
         ShowSpeed(Speed);
@@ -95,42 +91,19 @@ public class Sarsa : MonoBehaviour
         AfterEpisodes1 = 300;
         AfterEGreddy1 = 2;
 
+        //Default Rewards
+        GoalReward = 20;
+        TrapReward = -10;
+        SimpleReward = -1;
+        
         //The First State
         Xaxis = 0;
         Yaxis = 0;
         NextXaxis = 0;
         NextYaxis = 0;
-
-
-        // allQ = "Q1  UP : " + state[0, 0].Action["Up"] + "  Down : " + state[0, 0].Action["Down"] + "  Right : " + state[0, 0].Action["Right"]
-        //+ "  Left : " + state[0, 0].Action["Left"]
-
-       
-
-        }
-
-    void OnGUI()
-    {
-
-
-
-        //string test = string.Format("<color=blue>{0}</color>", Speed);
-        //GUI.Box(new Rect(850, 250,200, 30), test);
-
-        //allQ = "Q1  UP : " + state[0, 0].Action["Up"] + "  Down : " + state[0, 0].Action["Down"] + "  Right : " + state[0, 0].Action["Right"]
-        //        + "  Left : " + state[0, 0].Action["Left"];
-
-        //GUIStyle style = new GUIStyle();
-        //style.fontSize = 20;
-        //GUI.Box(new Rect(980, 250, 300, 30), allQ, style);
         
-                        
-        //GUILayout.TextField("UP - " + state[0, 0].Action["Up"] + "  Down - " + state[0, 0].Action["Down"] + "  Right - " + state[0, 0].Action["Right"]
-                            //+ "  Left - " + state[0, 0].Action["Left"], GUILayout.Width(300));
-    }
-
+        }
     
-
     public void StartLearning()
     {
         // Define Rewards
@@ -195,7 +168,7 @@ public class Sarsa : MonoBehaviour
         //this Run only the first time
         
         //******///
-        // Egw Dialegw tin prwti kinisi
+        //Choose the very first move of the mouse
        
         State1 = state[Xaxis, Yaxis];
         Action1 = "Up";
@@ -205,16 +178,17 @@ public class Sarsa : MonoBehaviour
         
         mouse.Move(NextXaxis,NextYaxis);
         ///****////
+        countMoves++;
+        ShowData();
 
-        
         QValue = State1.Action[Action1];
-        UpdateQtable();
+        
 
         yield return new WaitForSeconds(Speed);
 
+        //Starts the Sarsa Algorithm
         while (countEpisodes <= Episodes)
         {
-
             ShowData();
 
             print("Move From  " + Xaxis + " , " + Yaxis + " To " + NextXaxis + " , " + NextYaxis);
@@ -241,14 +215,12 @@ public class Sarsa : MonoBehaviour
             State2 = state[NextXaxis, NextYaxis];
             qValue = State2.Action[Action1];
 
-
+            //! SARSA !/
             QValue = QValue + Alpha * (State2.Reward + (Gamma * qValue) - QValue);
-            //print(NextState.Reward);
+         
 
             
             state[Xaxis, Yaxis].Action[Action1] = QValue;
-
-            UpdateQtable();
 
             
             //if this is Final Episode
@@ -297,7 +269,7 @@ public class Sarsa : MonoBehaviour
     }
 
 
-    public string DoRandomAction()
+    private string DoRandomAction()
     {
         //An tha kinithei sto aksona X i ston aksona Y
         // if XYmove = 0 tha kinithei sto akona X...diaforetika sto akona Y
@@ -347,7 +319,7 @@ public class Sarsa : MonoBehaviour
         return "null";
     }
 
-    public string GetMaxAction()
+    private string GetMaxAction()
     {
         string action = "Up";
        
@@ -372,7 +344,7 @@ public class Sarsa : MonoBehaviour
     }
 
 
-    public string EditSecondAxis(string action)
+    private string EditSecondAxis(string action)
     {
        
         
@@ -396,7 +368,7 @@ public class Sarsa : MonoBehaviour
         return "null";
     }
 
-    public void RestartPoss()
+    private void RestartPoss()
     {
         Xaxis = 0;
         Yaxis = 0;
@@ -424,22 +396,7 @@ public class Sarsa : MonoBehaviour
         mouse.GoToStart();
     }
 
-    public void ShowSpeed(float _speed)
-    {
-        Speed = _speed;
-        _speed = float.Parse(_speed.ToString("n1"));
-        SpeedText.text = _speed + "/sec for move";
-    }
-
-    public void ShowData()
-    {
-        EpisodesCarriedOut.text = countEpisodes.ToString();
-        EpisodesLeft.text = (Episodes - countEpisodes).ToString();
-        Moves.text = countMoves.ToString();
-        eGreddyText.text = eGreddy.ToString();
-    }
-
-    public void ShowResult()
+    private void ShowResult()
     {
 
         string action = GetMaxAction();
@@ -460,31 +417,34 @@ public class Sarsa : MonoBehaviour
         {
             Zrotation = 90;
         }
-        mouse.InstantiateFootprints(NextXaxis, NextYaxis,Zrotation);
+        mouse.InstantiateFootprints(NextXaxis, NextYaxis, Zrotation);
 
     }
 
-    public void UpdateQtable()
+    public void ShowSpeed(float _speed)
     {
-        //Qtable[state[Xaxis, Yaxis].Qnumber].text = "xAxis  " + Xaxis + "  Yaxis " + Yaxis + "  Qnumber " + state[Xaxis, Yaxis].Qnumber;
-        float _up = state[Xaxis, Yaxis].Action["Up"];
-        float _down = state[Xaxis, Yaxis].Action["Down"];
-        float _right = state[Xaxis, Yaxis].Action["Right"];
-        float _left = state[Xaxis, Yaxis].Action["Left"];
-
-        _up = float.Parse(_up.ToString("n3"));
-        _down = float.Parse(_down.ToString("n3"));
-        _right = float.Parse(_right.ToString("n3"));
-        _left = float.Parse(_left.ToString("n3"));
-
-        Qtable[state[Xaxis, Yaxis].Qnumber].text = "Q"+ state[Xaxis, Yaxis].Qnumber +  "  UP : " + _up + "  Down : " + _down+ "  Right : " + _right + "  Left : " + _left;
+        Speed = _speed;
+        _speed = float.Parse(_speed.ToString("n1"));
+        SpeedText.text = _speed + "/sec for move";
     }
 
+    public void ShowData()
+    {
+        EpisodesCarriedOut.text = countEpisodes.ToString();
+        EpisodesLeft.text = (Episodes - countEpisodes).ToString();
+        Moves.text = countMoves.ToString();
+        eGreddyText.text = eGreddy.ToString();
+    }
 
+    
     public void WriteCSV()
     {
-        
-        string filePath = @"C:\\Users\univ\Desktop\Sarsa.csv";
+        string filePath = Application.dataPath + "/QTable.txt";
+
+        if (!File.Exists(filePath))
+        {
+            using (StreamWriter sw = File.CreateText(filePath)) ;
+        }
 
         StreamWriter writer = new StreamWriter(filePath);
 
@@ -515,11 +475,7 @@ public class Sarsa : MonoBehaviour
 [System.Serializable]
 public class State
 {
-    //public float Qup = 0;
-    //public float Qdown = 0;
-    //public float QLeft = 0;
-    //public float Qrigt = 0;
-
+    
     public Dictionary<string, float> Action;
     public float Reward;
     public int Qnumber;
