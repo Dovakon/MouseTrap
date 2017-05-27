@@ -1,17 +1,17 @@
-Q0:   UP -2.23331 ,  Down -2.201281 ,  Right -2.22686 ,  Left -2.202696
-Q1:   UP -1.885223 ,  Down -1.744069 ,  Right -1.769133 ,  Left -1.74258
-Q2:   UP -1.816533 ,  Down -1.184832 ,  Right -1.212692 ,  Left -1.264942
-Q3:   UP 0.5638177 ,  Down -0.1 ,  Right -0.3058309 ,  Left -0.4619408
-Q4:   UP -1.907225 ,  Down -1.887386 ,  Right -2.12012 ,  Left -1.807313
-Q5:   UP -2.499511 ,  Down -2.891852 ,  Right -2.927651 ,  Left -2.861823
+Q0:   UP 5.832327 ,  Down 3.330597 ,  Right 2.932669 ,  Left 3.065221
+Q1:   UP 7.007207 ,  Down -1.682706 ,  Right -1.726806 ,  Left -1.797576
+Q2:   UP -5.695328 ,  Down -1.216295 ,  Right 0.2100091 ,  Left -1.16849
+Q3:   UP 4.688843 ,  Down 0.1395752 ,  Right 0.2072778 ,  Left -0.8148564
+Q4:   UP 8.580407 ,  Down 2.621035 ,  Right 4.484085 ,  Left 4.464513
+Q5:   UP 10.34407 ,  Down 0.8341044 ,  Right -9.690968 ,  Left 2.570485
 Q6:   UP 0 ,  Down 0 ,  Right 0 ,  Left 0
-Q7:   UP 11.39066 ,  Down 6.0812 ,  Right 0 ,  Left 5.1902
-Q8:   UP -1.332416 ,  Down -1.559209 ,  Right -1.344148 ,  Left -1.354217
-Q9:   UP -2.71 ,  Down -2.59136 ,  Right -2.359 ,  Left -2.642429
-Q10:   UP -0.1 ,  Down -1 ,  Right 3.8 ,  Left -0.1204625
+Q7:   UP 15.88218 ,  Down 0.2084538 ,  Right -0.3085622 ,  Left -4.0951
+Q8:   UP 2.486764 ,  Down 4.402561 ,  Right 11.51429 ,  Left 7.212749
+Q9:   UP -9.96243 ,  Down 3.281907 ,  Right 14.93529 ,  Left 6.842751
+Q10:   UP 6.970829 ,  Down -9.852191 ,  Right 19.99999 ,  Left 8.176926
 Q11:   UP 0 ,  Down 0 ,  Right 0 ,  Left 0
-Q12:   UP -1.006991 ,  Down -1.24501 ,  Right -1.636151 ,  Left -1.02609
+Q12:   UP -0.2467485 ,  Down 7.269503 ,  Right -6.513216 ,  Left -0.3421288
 Q13:   UP 0 ,  Down 0 ,  Right 0 ,  Left 0
-Q14:   UP -0.109 ,  Down -0.1 ,  Right 0 ,  Left -1.09
-Q15:   UP 0 ,  Down 0 ,  Right 0 ,  Left 0
-Episodes31
+Q14:   UP 2.350422 ,  Down 15.75352 ,  Right 0.369701 ,  Left -5.217031
+Q15:   UP 0.42902 ,  Down 8.1902 ,  Right -0.1 ,  Left -0.1171
+Episodes701

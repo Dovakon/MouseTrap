@@ -130,6 +130,7 @@ public class Sarsa : MonoBehaviour
                 if ((i == 2 & y == 1) || (i == 1 & y == 3))
                 {
                     state[i, y].Reward = TrapReward;
+                    
                 }
                 else if (i == 3 & y == 2)
                 {
@@ -172,14 +173,14 @@ public class Sarsa : MonoBehaviour
        
         State1 = state[Xaxis, Yaxis];
         Action1 = "Up";
-        print("First Action" + Action1);
+        
         EditSecondAxis(Action1);
         
         
-        mouse.Move(NextXaxis,NextYaxis);
+       
         ///****////
-        countMoves++;
-        ShowData();
+      
+        
 
         QValue = State1.Action[Action1];
         
@@ -189,17 +190,9 @@ public class Sarsa : MonoBehaviour
         //Starts the Sarsa Algorithm
         while (countEpisodes <= Episodes)
         {
-            ShowData();
-
-            print("Move From  " + Xaxis + " , " + Yaxis + " To " + NextXaxis + " , " + NextYaxis);
-            Vector3 poss = mouse.GetPossision();
-            print("Mouse Poss: " + poss);
-
 
             int pickAction = Random.Range(1,11);
-            print("e-Greedy " +pickAction);
            
-
             if (pickAction <= eGreddy)
             {
                 Action2 = DoRandomAction();
@@ -211,9 +204,9 @@ public class Sarsa : MonoBehaviour
             
             
 
-            print("Choosen Action: " + Action2);
+            print("Choosen Action: " + Action1);
             State2 = state[NextXaxis, NextYaxis];
-            qValue = State2.Action[Action1];
+            qValue = State2.Action[Action2];
 
             //! SARSA !/
             QValue = QValue + Alpha * (State2.Reward + (Gamma * qValue) - QValue);
@@ -221,14 +214,17 @@ public class Sarsa : MonoBehaviour
 
             
             state[Xaxis, Yaxis].Action[Action1] = QValue;
-
             
-            //if this is Final Episode
-            if (countEpisodes == Episodes)
-            {
-                ShowResult();
-            }
 
+            print("Move From  " + Xaxis + " , " + Yaxis + " To " + NextXaxis + " , " + NextYaxis);
+
+            mouse.Move(NextXaxis, NextYaxis);
+            Vector3 poss = mouse.GetPossision();
+
+            print("Mouse Poss: " + poss);
+            print("Reward" + State2.Reward);
+            print("QValue:  " + state[Xaxis, Yaxis].Qnumber);
+            
 
             State1 = State2;
             Xaxis = NextXaxis;
@@ -237,30 +233,31 @@ public class Sarsa : MonoBehaviour
             EditSecondAxis(Action1);
             QValue = qValue;
 
-            //Move Mouse
-            mouse.Move(NextXaxis, NextYaxis);
+            
 
             //Check if mouse got to the goal
             if ((Xaxis == 3 & Yaxis == 2) || (Xaxis == 2 & Yaxis == 1) || (Xaxis == 1 & Yaxis == 3))
             {
-                print("Goal Reached");
                 countEpisodes++;
-                
                 RestartPoss();
             }
-
+            
+            //if this is Final Episode
             if (countEpisodes == Episodes)
             {
-                eGreddy = 0;
+                ShowResult();
+                yield break;
+                
             }
-            else if (countEpisodes > AfterEpisodes1)
+          
+            if (countEpisodes > AfterEpisodes1)
             {
                 eGreddy = AfterEGreddy1;
             }
             
-
             
             countMoves++;
+            ShowData();
             yield return new WaitForSeconds(Speed);
         }
 
@@ -375,10 +372,11 @@ public class Sarsa : MonoBehaviour
         NextXaxis = 0;
         NextYaxis = 0;
 
+        mouse.GoToStart();
 
         int pickAction = Random.Range(0, 11);
-        print("e-Greedy " + pickAction);
-        if (pickAction < eGreddy + 1)
+        
+        if (pickAction < eGreddy)
         {
             Action1 = DoRandomAction();
         }
@@ -392,33 +390,84 @@ public class Sarsa : MonoBehaviour
         EditSecondAxis(Action1);
 
         
+        ShowData();
+
         QValue = State1.Action[Action1];
-        mouse.GoToStart();
+       
+
+
+
+
     }
+
+    //private void ShowResult()
+    //{
+
+    //    string action = GetMaxAction();
+    //    int Zrotation = 0;
+    //    if (action == "Left")
+    //    {
+    //        Zrotation = 180;
+    //    }
+    //    else if (action == "Right")
+    //    {
+    //        Zrotation = 0;
+    //    }
+    //    else if (action == "Down")
+    //    {
+    //        Zrotation = -90;
+    //    }
+    //    else if (action == "Up")
+    //    {
+    //        Zrotation = 90;
+    //    }
+    //    mouse.InstantiateFootprints(NextXaxis, NextYaxis, Zrotation);
+
+    //}
 
     private void ShowResult()
     {
+        for (int y = 0; y < 4; y++)
+        {
+            for (int i = 0; i < 4; i++)
+            {
 
-        string action = GetMaxAction();
-        int Zrotation = 0;
-        if (action == "Left")
-        {
-            Zrotation = 180;
-        }
-        else if (action == "Right")
-        {
-            Zrotation = 0;
-        }
-        else if (action == "Down")
-        {
-            Zrotation = -90;
-        }
-        else if (action == "Up")
-        {
-            Zrotation = 90;
-        }
-        mouse.InstantiateFootprints(NextXaxis, NextYaxis, Zrotation);
+                NextXaxis = i;
+                NextYaxis = y;
 
+
+                if ((i == 2 & y == 1) || (i == 1 & y == 3) || (i == 3 & y == 2))
+                {
+                    //To Nothing
+                }
+                else
+                {
+
+                    string action = GetMaxAction();
+
+                    int Zrotation = 0;
+                    if (action == "Left")
+                    {
+                        Zrotation = 180;
+                    }
+                    else if (action == "Right")
+                    {
+                        Zrotation = 0;
+                    }
+                    else if (action == "Down")
+                    {
+                        Zrotation = -90;
+                    }
+                    else if (action == "Up")
+                    {
+                        Zrotation = 90;
+                    }
+                    mouse.InstantiateFootprints(NextXaxis, NextYaxis, Zrotation);
+
+                }
+            }
+
+        }
     }
 
     public void ShowSpeed(float _speed)
@@ -443,7 +492,7 @@ public class Sarsa : MonoBehaviour
 
         if (!File.Exists(filePath))
         {
-            using (StreamWriter sw = File.CreateText(filePath)) ;
+            using (StreamWriter sw = File.CreateText(filePath));
         }
 
         StreamWriter writer = new StreamWriter(filePath);
